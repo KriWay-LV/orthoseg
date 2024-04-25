@@ -7,6 +7,7 @@
 - Add support to train subject on different pixel sizes (#143, #174)
 - Add support to overrule configuration parameters via command line arguments (#152)
 - Several small improvements (#128)
+- Include layer being predicted in status emails being sent (#173)
 
 ### Bugs fixed
 

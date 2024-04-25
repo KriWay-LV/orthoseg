@@ -95,7 +95,6 @@ def predict(config_path: Path, config_overrules: List[str] = []):
     message = f"Start predict for config {config_path.stem}"
     logger.info(message)
     logger.debug(f"Config used: \n{conf.pformat_config()}")
-    email_helper.sendmail(message)
 
     try:
         # Read some config, and check if values are ok
@@ -104,6 +103,8 @@ def predict(config_path: Path, config_overrules: List[str] = []):
             raise Exception(
                 f"image_layer to predict is not specified in config: {image_layer}"
             )
+        email_helper.sendmail(message + f" on layer {image_layer['wms_layernames']}")
+
         input_image_dir = conf.dirs.getpath("predict_image_input_dir")
         if not input_image_dir.exists():
             raise Exception(f"input image dir doesn't exist: {input_image_dir}")
@@ -306,7 +307,7 @@ def predict(config_path: Path, config_overrules: List[str] = []):
         # Log and send mail
         message = f"Completed predict for config {config_path.stem}"
         logger.info(message)
-        email_helper.sendmail(message)
+        email_helper.sendmail(message + f" on layer {image_layer['wms_layernames']}")
     except Exception as ex:
         message = f"ERROR while running predict for task {config_path.stem}"
         logger.exception(message)
